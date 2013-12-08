@@ -24,6 +24,7 @@
     "superagent": "~0.15.7",
     "commander": "~2.1.0",
     "socket.io": "~0.9.16",
-    "socket.io-client": "~0.9.16"
+    "socket.io-client": "~0.9.16",
+    "redis": "~0.9.1"
   }
 }
