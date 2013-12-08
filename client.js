@@ -54,7 +54,7 @@ function refresh() {
             return;
         }
 
-        console.log('Got new app key: "%s"', result.body.appkey);
+        console.log(result.body.appkey);
     });
 }
 
