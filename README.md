@@ -1,6 +1,8 @@
 callmydouble
 ============
 
+*under heavy development*
+
 Usage
 -----
 
@@ -25,3 +27,5 @@ From that point on you can test the flow
 ```
 
 The `test` command also takes the `--payload` and the `--method` commandline argument to further test different REST methods with message bodies.
+
+Currently the user handling is missing and only a dummy user is used per default.
