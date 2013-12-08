@@ -1,4 +1,22 @@
 {
+  "name": "callmydouble",
+  "description": "callmydouble gives you a public route to be dispatched locally.",
+  "version": "0.0.1",
+  "author": {
+    "name": "Johannes Zellner",
+    "email": "webmaster@nebulon.de"
+  },
+  "bugs": {
+    "url": "https://github.com/nebulade/callmydouble/issues",
+    "email": "webmaster@nebulon.de"
+  },
+  "engines": [
+    "node >= 0.8.0"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nebulade/callmydouble"
+  },
   "dependencies": {
     "express": "~3.4.6",
     "once": "~1.3.0",

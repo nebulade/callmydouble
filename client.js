@@ -7,11 +7,11 @@ var request = require('superagent'),
     commander = require('commander');
 
 commander.version('0.1.0')
+    .option('-s, --server [url]', 'Remote callback server.')
     .option('add <route>', 'Add a new callback handler.')
     .option('remove <route>', 'Removes a callback handler.')
     .option('test <route>', 'Tests a callback handler.')
     .option('listen [url]', 'Listen and waits for callbacks and dispatches them locally. Default to http://localhost:3000.')
-    .option('-s, --server [url]', 'Remote callback server.')
     .parse(process.argv);
 
 
