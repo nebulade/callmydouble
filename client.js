@@ -23,10 +23,10 @@ var server = commander.server || 'http://localhost:3001';
 debug('Using remote callback server %s', server);
 var listener = typeof commander.listen === 'string' ? commander.listen : 'http://localhost:3000';
 debug('Using %s to dispatch incoming requests locally.', listener);
-var user = 'dummy';
-debug('Using user api token %s.', user);
+var user = 'foobar';
+debug('Using user "%s".', user);
 var appKey = commander.key;
-debug('Using app key "%s".', appKey);
+if (appKey) debug('Using app key "%s".', appKey);
 
 
 /*
@@ -48,7 +48,7 @@ function test(route) {
 function refresh() {
     debug('Refresh callback');
 
-    request.get(server + '/appkey').end(function (error, result) {
+    request.get(server + '/appkey').query({'access_token': user}).end(function (error, result) {
         if (error) {
             console.error('Unable to reach the server.', error);
             return;
