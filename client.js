@@ -4,15 +4,16 @@
 
 var request = require('superagent'),
     debug = require('debug')('client'),
+    Listener = require('./lib/listener'),
     commander = require('commander');
 
 commander.version('0.1.0')
     .option('-s, --server [url]', 'Remote callback server.')
-    .option('-k, --key <appkey>', 'Application key to be recongnized by the callback server.')
     .option('-p, --payload [payload]', 'Specifies an additional payload for the "test" commands.')
+    .option('-a, --accessToken <access token>', 'Specifies the access token used to authenticate with the server.')
     .option('refresh', 'Get a new the application key.')
     .option('test <route>', 'Tests a callback route.')
-    .option('listen [url]', 'Listen and waits for callbacks and dispatches them locally. Default to http://localhost:3000.')
+    .option('listen <application key>', 'Listen and waits for callbacks based on the application key.')
     .parse(process.argv);
 
 
@@ -23,9 +24,9 @@ var server = commander.server || 'http://localhost:3001';
 debug('Using remote callback server %s', server);
 var listener = typeof commander.listen === 'string' ? commander.listen : 'http://localhost:3000';
 debug('Using %s to dispatch incoming requests locally.', listener);
-var user = 'foobar';
-debug('Using user "%s".', user);
-var appKey = commander.key;
+var accessToken = commander.accessToken || 'dummy';
+debug('Using accessToken "%s".', accessToken);
+var appKey = commander.listen;
 if (appKey) debug('Using app key "%s".', appKey);
 
 
@@ -48,7 +49,7 @@ function test(route) {
 function refresh() {
     debug('Refresh callback');
 
-    request.get(server + '/appkey').query({'access_token': user}).end(function (error, result) {
+    request.get(server + '/appkey').query({'access_token': accessToken}).end(function (error, result) {
         if (error) {
             console.error('Unable to reach the server.', error);
             return;
@@ -59,23 +60,20 @@ function refresh() {
 }
 
 function listen() {
-    debug('Listen for callbacks to dispatch.');
+    listener = new Listener(server, accessToken);
 
-    var socket = require('socket.io-client').connect(server);
-    socket.on('connect', function () {
-        console.log('Connected to server...');
+    listener.on('connect', function () {
+        debug('Connected to server "%s".', server);
+    });
+    listener.on('disconnect', function () {
+        debug('Disconnected from server "%s".', server);
+    });
+    listener.on('callback', function (data) {
+        debug('Received callback.');
+        console.log(data);
     });
 
-    socket.on('callback', function (data) {
-        console.log('Received callback, dispatch further.', data);
-    });
-
-    socket.on('disconnect', function () {
-        console.log('Disconnected from server. Exit.');
-        process.exit(1);
-    });
-
-    socket.emit('auth', appKey);
+    listener.start();
 }
 
 
