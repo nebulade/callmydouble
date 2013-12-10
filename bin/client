@@ -68,7 +68,7 @@ function listen() {
             console.log('Now listening on callbacks ...'.cyan);
         } else {
             console.error('Registering with the provided access token failed.'.red);
-            console.log('Try to get a new application token via ./client.js refresh <access token>.'.red);
+            console.log('Try to create a new application token via `./bin/client refresh <access token>`');
             process.exit(1);
         }
     });
