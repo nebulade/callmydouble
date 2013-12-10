@@ -30,6 +30,7 @@
     "socket.io": "~0.9.16",
     "socket.io-client": "~0.9.16",
     "redis": "~0.9.1",
-    "uuid": "~1.4.1"
+    "uuid": "~1.4.1",
+    "colors": "~0.6.2"
   }
 }

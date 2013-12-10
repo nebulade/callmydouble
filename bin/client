@@ -4,6 +4,7 @@
 
 var request = require('superagent'),
     debug = require('debug')('client'),
+    colors = require('colors'),
     Listener = require('../lib/listener'),
     commander = require('commander');
 
@@ -53,19 +54,23 @@ function listen() {
     listener = new Listener(server, appKey, appSecret);
 
     listener.on('connect', function () {
-        debug('Connected to server "%s".', server);
+        console.log('Connected to server %s'.green, server);
     });
     listener.on('disconnect', function () {
-        debug('Disconnected from server "%s".', server);
+        console.log('Disconnected from server %s'.yellow, server);
     });
     listener.on('callback', function (data) {
-        debug('Received callback.');
-        console.log(data);
+        console.log('Received callback:'.bold, data);
     });
-    listener.on('auth_failed', function () {
-        console.error('Registering with the provided access token failed.');
-        console.log('Try to get a new application token via ./client.js refresh <access token>.');
-        process.exit(1);
+    listener.on('auth', function (status) {
+        if (status) {
+            console.log('Registering with the provided access token succeeded.'.green);
+            console.log('Now listening on callbacks ...'.cyan);
+        } else {
+            console.error('Registering with the provided access token failed.'.red);
+            console.log('Try to get a new application token via ./client.js refresh <access token>.'.red);
+            process.exit(1);
+        }
     });
 
     listener.start();
