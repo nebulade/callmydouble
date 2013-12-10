@@ -2,7 +2,7 @@
 
 'use strict';
 
-var server = require('./lib/index');
+var server = require('../lib/index');
 
 server.start({}, function (error, result) {
     if (error) {
