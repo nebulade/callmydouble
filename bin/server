@@ -4,7 +4,9 @@
 
 var server = require('../lib/index');
 
-server.start({}, function (error, result) {
+var port = process.env.PORT || 3001;
+
+server.start({ port: port }, function (error, result) {
     if (error) {
         console.error('Unable to start server.', error);
         process.exit(1);

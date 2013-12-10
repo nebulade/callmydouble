@@ -20,7 +20,7 @@ commander.version('0.1.0')
 /*
  * some global configs
  */
-var server = commander.server || 'http://localhost:3001';
+var server = commander.remote || 'http://localhost:3001';
 debug('Using remote callback server %s', server);
 
 var listener = typeof commander.listen === 'string' ? commander.listen : 'http://localhost:3000';
