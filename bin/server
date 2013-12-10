@@ -2,7 +2,7 @@
 
 'use strict';
 
-var server = require('../lib/index');
+var server = require('../lib/backend');
 
 var port = process.env.PORT || 3001;
 

@@ -17,6 +17,7 @@
     "type": "git",
     "url": "https://github.com/nebulade/callmydouble"
   },
+  "main": "./lib/listener",
   "bin": {
     "server": "./bin/server",
     "client": "./bin/client"
