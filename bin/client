@@ -88,10 +88,10 @@ function listen() {
     listener = new Listener(server, appKey, appSecret);
 
     listener.on('connect', function () {
-        console.log('Connected to server %s'.green, server);
+        console.log('Connected to callback server %s'.green, server);
     });
     listener.on('disconnect', function () {
-        console.log('Disconnected from server %s'.yellow, server);
+        console.log('Disconnected from callback server %s'.yellow, server);
     });
     listener.on('callback', function (data) {
         console.log('Received callback:'.bold, data);
@@ -107,6 +107,7 @@ function listen() {
         }
     });
 
+    console.log('Connecting to callback server...'.yellow);
     listener.start();
 }
 
