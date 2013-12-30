@@ -29,17 +29,19 @@ If redis is locally installed, just run `redis-server`.
 Usage
 -----
 
-To start the publicly available beach head which dispatches incoming POSTs forward to the user's client you need to have a redis server running.
+To start the publicly available beach head, which dispatches incoming requests to the user's client, you need to have a redis server running.
 ```
 DEBUG=* ./bin/server
 ```
 
 Back on your developer box, you have to obtain an application key. Each user can get initially and refresh his application key.
 This key can then be used to create a unique callback route which will get disptached to the listener which passes the same application
-key in. If the server is not running on the same machine, all client commands will take a --server option to specify the remote server.
+key in. If the server is not running on the same machine, all client commands will take a --remote option to specify the remote server.
 ```
-./bin/client refresh 'unicorn'
-DEBUG=* ./bin/client listen --key <appkey> --secret <appsecret>
+./bin/client register unicorn:magic
+./bin/client refresh unicorn:magic
+# will display the app key and the app secret
+./bin/client listen --key <appkey> --secret <appsecret>
 ```
 
 From that point on you can test the flow
@@ -50,10 +52,6 @@ curl -X POST http://localhost:3001/proxy/$APPKEY/some/route -H "Content-Type: ap
 
 TODOs
 -----
-
-#### User handling
-There is currently no concept to verify a user, when he attempts to generate an application key and secret.
-The plan is to provide a hook to add that with your favorite authentication service.
 
 #### Built-in request forwarding
 The `client` should forward the request if the user wants automatically.
