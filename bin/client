@@ -69,7 +69,7 @@ function refresh(user, password) {
 function register(user, password) {
     debug('Register %s', user);
 
-    request.post(server + '/api/v1/users/signin').auth(user, password).end(function (error, result) {
+    request.post(server + '/api/v1/users/signup').auth(user, password).end(function (error, result) {
         if (error) {
             console.error('Unable to reach the server.', error);
             return;
