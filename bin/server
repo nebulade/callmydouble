@@ -5,8 +5,9 @@
 var server = require('../lib/backend');
 
 var port = process.env.PORT || 3001;
+var singleton = process.env.SINGLETON || false;
 
-server.start({ port: port }, function (error, result) {
+server.start({ port: port, singleton: singleton }, function (error, result) {
     if (error) {
         console.error('Unable to start server.', error);
         process.exit(1);
