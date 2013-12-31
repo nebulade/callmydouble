@@ -1,1 +1,1 @@
-web: node ./bin/server
+web: DEBUG=* node ./bin/server
