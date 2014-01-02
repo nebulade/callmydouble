@@ -1,7 +1,7 @@
 {
   "name": "callmydouble",
   "description": "callmydouble gives you a public route to be dispatched locally.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": {
     "name": "Johannes Zellner",
     "email": "webmaster@nebulon.de"
