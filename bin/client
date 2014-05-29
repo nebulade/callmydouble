@@ -114,6 +114,17 @@ function listen() {
     });
     listener.on('callback', function (data) {
         console.log('Received callback:'.bold, data);
+
+        if (forward) {
+            request(data.method, forward + data.route).send(data.payload).end(function (error, result) {
+                if (error) {
+                    console.log('Error forwarding request. %s'.red, error);
+                    return;
+                }
+
+                console.log('Received request successfully forwarded.'.bold);
+            });
+        }
     });
     listener.on('auth', function (status) {
         if (status) {
