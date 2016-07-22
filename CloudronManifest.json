@@ -14,7 +14,7 @@
   "manifestVersion": 1,
   "website": "http://callmydouble.nebulon.de",
   "contactEmail": "johannes@nebulon.de",
-  "icon": "",
+  "icon": "file://icon.png",
   "tags": [
     "changme"
   ],
