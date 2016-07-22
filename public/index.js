@@ -303,7 +303,7 @@ ApplicationFragment.prototype.fillForm = function (appKey, appSecret) {
 
 // some global helpers
 function getApplicationDetails(callback) {
-    var req = superagent.post('/api/v1/apps/0/details').withCredentials().query({ userToken: $.cookie('userToken') }).end(function (error, result) {
+    superagent.post('/api/v1/apps/0/details').withCredentials().query({ userToken: $.cookie('userToken') }).end(function (error, result) {
         if (error || !result.ok) {
             return callback(error ? error : result.status);
         }

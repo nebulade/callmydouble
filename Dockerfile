@@ -12,4 +12,5 @@ ENV PATH /usr/local/node-4.2.1/bin:$PATH
 
 RUN npm install --production
 
+ENV DEBUG server
 CMD [ "/app/code/bin/server" ]
