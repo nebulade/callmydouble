@@ -242,6 +242,15 @@ function ApplicationFragment (context) {
     this.usageRemoteLabel = $('#usage-remote');
     this.usageExampleUrlLabel = $('#usage-example-url');
 
+    // IE does not suppprt this
+    if (window.location.origin) {
+        this.origin = window.location.origin;
+    } else {
+        this.origin = window.location.protocol + '//' + window.location.hostname;
+
+        if (window.location.port) this.origin += ':' + window.location.port;
+    }
+
     this.buttonRefresh.click(function (event) {
         that.confirmDialog.modal('show');
     });
@@ -281,13 +290,13 @@ ApplicationFragment.prototype.fillForm = function (appKey, appSecret) {
     this.inputAppKey.click(function () { $(this).select(); });
     this.inputAppSecret.val(appSecret);
     this.inputAppSecret.click(function () { $(this).select(); });
-    this.inputCallbackUrl.text('/proxy/' + appKey + '/');
-    this.inputCallbackUrl.attr('href', '/proxy/' + appKey + '/');
+    this.inputCallbackUrl.text(this.origin + '/proxy/' + appKey + '/');
+    this.inputCallbackUrl.attr('href', this.origin + '/proxy/' + appKey + '/');
 
     this.usageAppKeyLabel.text(appKey);
     this.usageAppSecretLabel.text(appSecret);
-    this.usageRemoteLabel.text(window.BACKEND_URL);
-    this.usageExampleUrlLabel.text('/proxy/' + appKey + '/test/route');
+    this.usageRemoteLabel.text(this.origin);
+    this.usageExampleUrlLabel.text(this.origin + '/proxy/' + appKey + '/test/route');
 };
 
 
