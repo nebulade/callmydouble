@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Call my Double</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="index.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="assets/jquery-2.0.3.min.js"></script>
+    <script src="assets/jquery.cookie.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/superagent.js"></script>
+    <script src="index.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Generate new Application Keys</h4>
+          </div>
+          <div class="modal-body">
+            This will make your the callback URLs with your old application key unusable.
+            Really want to generate new ones?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="modal-confirm-cancel">Close</button>
+            <button type="button" class="btn btn-primary" id="modal-confirm-ok">Generate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-account-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Delete your account</h4>
+          </div>
+          <div class="modal-body">
+            Really want to delete your account?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="modal-account-delete-cancel">Cancel</button>
+            <button type="button" class="btn btn-danger" id="modal-account-delete-ok">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header" id="box-navbar">
+        <ul class="nav nav-pills pull-right">
+          <li><button class="btn btn-xs btn-success" id="login-button">Login</button></li>
+          <li><button class="btn btn-xs btn-warning" id="logout-button"><span class="glyphicon glyphicon-off"></span> Logout</button></li>
+          <li><button class="btn btn-xs btn-danger" id="delete-account-button"><span class="glyphicon glyphicon-trash"></span> Delete Account</button></li>
+          <li><button class="btn btn-xs btn-primary" id="signup-button">Register</button></li>
+        </ul>
+        <h3 class="text-primary">Call my <a href="https://en.wikipedia.org/wiki/Doppelg%C3%A4nger">Double</a></h3>
+      </div>
+
+      <div id="box-welcome" class="jumbotron" style="display: none;">
+        <h1>Public callbacks on localhost</h1>
+        <p class="lead">Ever needed a public beach head to catch callbacks from 3rd party services and want to react locally?</p>
+        <p><button class="btn btn-lg btn-primary" id="get-a-double-button">Get a Double</button></p>
+      </div>
+
+      <div id="box-login" class="container" style="display: none;">
+        <form class="form-login box" id="form-generate" role="form">
+          <h2 class="form-login-heading">Manage your Double</h2>
+          <div class="form-group">
+            <label class="control-label" for="email">Username</label>
+            <input type="email" class="form-control" placeholder="email" name="email" required autofocus>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="password-repeat">Password</label>
+            <input type="password" class="form-control" placeholder="password" name="password" required autofocus>
+          </div>
+          <label class="checkbox">
+            <input type="checkbox" name="remember" value="remember"> Remember me
+          </label>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        </form>
+      </div>
+
+      <div id="box-signup" class="container" style="display: none;">
+        <form class="form-signin box" id="signup-form" role="form">
+          <h2 class="form-signin-heading">Create your Double</h2>
+          <div class="form-group">
+            <label class="control-label" for="email">Username</label>
+            <input type="email" class="form-control" placeholder="email" name="email" required autofocus>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="password-repeat">Password</label>
+            <input type="password" class="form-control" placeholder="password" name="password" required autofocus>
+            <input type="password" class="form-control" placeholder="repeat password" name="password-repeat" required autofocus>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+        </form>
+      </div>
+
+      <div id="box-application" class="container box" style="display: none;">
+        <div class="box">
+          <div class="row pull-right">
+              <button class="btn btn-xs btn-primary btn-block" id="app-refresh-button">
+                <span class="glyphicon glyphicon-refresh"></span> Refresh
+              </button>
+          </div>
+          <div class="row">
+            <div><b>Callback base URL</b></div>
+            <a href="" target="_blank" id="callback-url"></a>
+          </div>
+          <div class="row">
+            <div>
+              <b>Application Key</b>
+            </div>
+            <input type="text" class="form-control" id="application-key" readonly="readonly"></input>
+          </div>
+          <div class="row">
+            <div><b>Application Secret</b></div>
+            <input type="text" class="form-control" id="application-secret" readonly="readonly"></input>
+          </div>
+        </div>
+        <div class="box">
+          <div class="row">
+            <b>Usage</b>
+            <br/><br/>
+            <div>
+              <div>
+                Both the client and the server come in one node module, which can be installed via npm.
+                If you want to use the example client, install it globally to make the client command available:
+<pre class="pre-code">
+$ sudo npm install -g callmydouble
+</pre>
+                If you want to integrate the client inside your node application directly install it local to your project:
+<pre class="pre-code">
+$ cd &lt;your-project&gt;
+$ npm install --save callmydouble
+</pre>
+              </div>
+              <div>
+                To run the example client to listen for dispatched callbacks run it like below.
+                <pre class="pre-code">
+$ callmydouble listen --remote <span id="usage-remote"></span> --key <span id="usage-app-key"></span> --secret <span id="usage-app-secret"></span>
+</pre>
+                If not installed globally, the example client is still available at <code>./node_modules/.bin/callmydouble</code></br>
+                </br>
+                To just test the connection, curl can be used. Just copy and paste the below commandline and execute it.
+                <pre class="pre-code">
+$ curl -X POST -d "{\"happy\":\"everyday\"}" -H "Content-Type: application/json" <span id="usage-example-url"></span>
+</pre>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>&copy; Johannes Zellner 2014</p>
+      </div>
+
+    </div> <!-- /container -->
+
+    <a href="https://github.com/nebulade/callmydouble"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+  </body>
+</html>
