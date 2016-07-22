@@ -12,7 +12,7 @@
     "redis": {},
     "simpleauth": {}
   },
-  "developmentMode": true,
+  "developmentMode": false,
   "manifestVersion": 1,
   "website": "http://callmydouble.nebulon.de",
   "contactEmail": "johannes@nebulon.de",
