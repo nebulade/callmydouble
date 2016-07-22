@@ -6,6 +6,7 @@
     "name": "Johannes Zellner",
     "email": "webmaster@nebulon.de"
   },
+  "license": "MIT",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/nebulade/callmydouble/issues",
