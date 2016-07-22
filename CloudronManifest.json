@@ -4,13 +4,15 @@
   "author": "Johannes Zellner <johannes@nebulon.de>",
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
-  "tagline": "Public callback urls for localhost",
-  "version": "0.0.1",
+  "tagline": "Webhook server",
+  "version": "0.1.0",
   "healthCheckPath": "/",
   "httpPort": 3001,
   "addons": {
-    "redis": {}
+    "redis": {},
+    "simpleauth": {}
   },
+  "developmentMode": true,
   "manifestVersion": 1,
   "website": "http://callmydouble.nebulon.de",
   "contactEmail": "johannes@nebulon.de",
