@@ -6,11 +6,6 @@ var server = require('../lib/backend');
 
 var port = process.env.PORT || 3001;
 
-if (!process.env.SIMPLE_AUTH_URL || !process.env.SIMPLE_AUTH_CLIENT_ID) {
-	console.log('This is a Cloudron app it requires the simpleauth addon');
-	process.exit(2);
-}
-
 server.start({ port: port }, function (error, result) {
     if (error) {
         console.error('Unable to start server.', error);
