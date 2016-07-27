@@ -11,25 +11,13 @@ context.fragments = {};
 // *********************************************
 
 function NavbarFragment (context) {
-    var that = this;
-
     this.container = $('#box-navbar');
     this.buttonGetADouble = $('#get-a-double-button');
     this.buttonLogin = $('#login-button');
     this.buttonLogout = $('#logout-button');
-    this.buttonSignup = $('#signup-button');
-    this.buttonDeleteAccount = $('#delete-account-button');
-
-    this.confirmDialog = $('#modal-account-delete');
-    this.confirmDialogButtonOk = $('#modal-account-delete-ok');
-    this.confirmDialogButtonCancel = $('#modal-account-delete-cancel');
 
     this.buttonGetADouble.click(function () {
         showFragment(context.fragments.login);
-    });
-
-    this.buttonSignup.click(function () {
-        showFragment(context.fragments.signup);
     });
 
     this.buttonLogin.click(function () {
@@ -39,28 +27,6 @@ function NavbarFragment (context) {
     this.buttonLogout.click(function (event) {
         $.removeCookie('userToken');
         window.location.href = '/';
-    });
-
-    this.buttonDeleteAccount.click(function (event) {
-        that.confirmDialog.modal('show');
-    });
-
-    this.confirmDialogButtonOk.click(function () {
-        that.confirmDialog.modal('hide');
-
-        superagent.post('/api/v1/users/signoff').withCredentials().query({ userToken: $.cookie('userToken') }).end(function (error, result) {
-            if (error || !result.ok) {
-                console.error('Failed to delete the account.', error, result && result.status);
-                return;
-            }
-
-            $.removeCookie('userToken');
-            window.location.href = '/';
-        });
-    });
-
-    this.confirmDialogButtonCancel.click(function (event) {
-        that.confirmDialog.modal('hide');
     });
 }
 
@@ -87,8 +53,6 @@ WelcomeFragment.prototype.show = function () {
     this.container.show();
     this.context.navbar.buttonLogout.hide();
     this.context.navbar.buttonLogin.show();
-    this.context.navbar.buttonSignup.show();
-    this.context.navbar.buttonDeleteAccount.hide();
 };
 
 WelcomeFragment.prototype.hide = function () {
@@ -142,83 +106,13 @@ function LoginFragment (context) {
 
 LoginFragment.prototype.show = function () {
     this.container.show();
-    this.context.navbar.buttonSignup.show();
     this.context.navbar.buttonLogout.hide();
     this.context.navbar.buttonLogin.hide();
-    this.context.navbar.buttonDeleteAccount.hide();
 };
 
 LoginFragment.prototype.hide = function () {
     this.container.hide();
 };
-
-
-
-// *********************************************
-//  Signup Fragment
-// *********************************************
-
-function SignupFragment (context) {
-    var that = this;
-    this.context = context;
-
-    this.container = $('#box-signup');
-    this.form = $('#signup-form');
-    this.email = $('#signup-form input[name=email]');
-    this.password = $('#signup-form input[name=password]');
-    this.passwordRepeat = $('#signup-form input[name=password-repeat]');
-
-    this.form.submit(function (event) {
-        event.preventDefault();
-
-        if (that.password.val() !== that.passwordRepeat.val()) {
-            console.error('Passwords don\'t match');
-            that.passwordRepeat.val('');
-            that.passwordRepeat.parent().addClass('has-error');
-            return;
-        }
-
-        superagent.post('/api/v1/users/signup').auth(that.email.val(), that.password.val()).end(function (error, result) {
-            if (error) {
-                console.error('Unable to reach the server.', error);
-                return;
-            }
-
-            if (result.status === 409) {
-                console.error('User %s already exists.', that.email.val());
-                that.email.parent().addClass('has-error');
-                return;
-            }
-
-            if (!result.ok) {
-                console.error('Unable to register new account "%s".', that.email.val());
-                return;
-            }
-
-            console.log('Account for user %s created.', that.email.val());
-
-            $.cookie('userToken', result.body.userToken);
-            console.log(that.passwordRepeat);
-            that.passwordRepeat.parent().removeClass('has-error');
-            that.email.parent().removeClass('has-error');
-            context.fragments.application.fillForm(result.body.appKey, result.body.appSecret);
-            showFragment(context.fragments.application);
-        });
-    });
-}
-
-SignupFragment.prototype.show = function () {
-    this.container.show();
-    this.context.navbar.buttonSignup.hide();
-    this.context.navbar.buttonLogout.hide();
-    this.context.navbar.buttonLogin.show();
-    this.context.navbar.buttonDeleteAccount.hide();
-};
-
-SignupFragment.prototype.hide = function () {
-    this.container.hide();
-};
-
 
 
 // *********************************************
@@ -275,10 +169,8 @@ function ApplicationFragment (context) {
 
 ApplicationFragment.prototype.show = function () {
     this.container.show();
-    this.context.navbar.buttonSignup.hide();
     this.context.navbar.buttonLogout.show();
     this.context.navbar.buttonLogin.hide();
-    this.context.navbar.buttonDeleteAccount.show();
 };
 
 ApplicationFragment.prototype.hide = function () {
@@ -326,7 +218,6 @@ function init() {
     context.navbar = new NavbarFragment(context);
     context.fragments.welcome = new WelcomeFragment(context);
     context.fragments.login = new LoginFragment(context);
-    context.fragments.signup = new SignupFragment(context);
     context.fragments.application = new ApplicationFragment(context);
 
     // figure out if we have a session and then carry on
