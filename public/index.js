@@ -25,7 +25,7 @@ function NavbarFragment (context) {
     this.confirmDialogButtonCancel = $('#modal-account-delete-cancel');
 
     this.buttonGetADouble.click(function () {
-        showFragment(context.fragments.signup);
+        showFragment(context.fragments.login);
     });
 
     this.buttonSignup.click(function () {
