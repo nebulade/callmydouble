@@ -25,7 +25,6 @@
     "callmydouble": "./bin/client"
   },
   "dependencies": {
-    "colors": "~0.6.2",
     "commander": "~2.1.0",
     "debug": "~0.7.4",
     "express": "~3.4.6",
