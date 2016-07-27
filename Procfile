@@ -1,1 +1,0 @@
-web: SINGLETON=true DEBUG=* node ./bin/server
