@@ -5,7 +5,7 @@ Note: There might be thousands such solutions available already! :D
 
 Ever needed a public beach head to catch callbacks from third party services, but you wanna react locally?
 
-This module provides a simple server, which can be run on a publicly reachable servers,
+This module provides a simple server, which can be run on a publicly reachable Cloudron,
 allowing clients to connect via socket.io from their developer box to the server.
 The client maintains a connection and will get notified if the public server was called on a
 user specific URL.
@@ -21,25 +21,23 @@ The most common use case might be to just forward the incoming request locally t
 Installation
 ------------
 
-This project is npm based, so `npm install` gets you most the dependencies.
-For a backing store, the `server` uses redis. So you need to provide a redis instance.
+[![Install](https://cloudron.io/img/button32.png)](https://cloudron.io/button.html?app=de.nebulon.callmydouble.cloudronapp)
 
-If redis is locally installed, just run `redis-server`.
+or using the [Cloudron command line tooling](https://cloudron.io/references/cli.html)
+
+```
+cloudron install --appstore-id de.nebulon.callmydouble.cloudronapp
+```
+
 
 Usage
 -----
 
-To start the publicly available beach head, which dispatches incoming requests to the user's client, you need to have a redis server running.
-```
-DEBUG=* ./bin/server
-```
-
-Back on your developer box, you have to obtain an application key. Each user can get initially and refresh his application key.
+Login to your installed app instance and obtain an application key. Each user can get initially and refresh his application key.
 This key can then be used to create a unique callback route which will get disptached to the listener which passes the same application
 key in. If the server is not running on the same machine, all client commands will take a --remote option to specify the remote server.
 ```
-./bin/client register unicorn:magic
-./bin/client refresh unicorn:magic
+./bin/client refresh username:password
 # will display the app key and the app secret
 ./bin/client listen --key <appkey> --secret <appsecret>
 ```
@@ -47,7 +45,7 @@ key in. If the server is not running on the same machine, all client commands wi
 From that point on you can test the flow
 ```
 export APPKEY=<appkey>
-curl -X POST http://localhost:3001/proxy/$APPKEY/some/route -H "Content-Type: application/json" -d '{"something":"to","say":true}'
+curl -X POST https://<app-domain>/proxy/$APPKEY/some/route -H "Content-Type: application/json" -d '{"something":"to","say":true}'
 ```
 
 TODOs
