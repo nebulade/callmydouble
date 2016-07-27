@@ -2,6 +2,8 @@
 
 'use strict';
 
+require('colors');
+
 var request = require('superagent'),
     debug = require('debug')('client'),
     Listener = require('../lib/listener'),
