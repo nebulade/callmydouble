@@ -1,5 +1,5 @@
 FROM cloudron/base:0.8.1
-MAINTAINER Johannes Zellner <johannes@nebulon.de> <johannes@nebulon.de>
+MAINTAINER Johannes Zellner <johannes@nebulon.de>
 
 WORKDIR /app/code
 
