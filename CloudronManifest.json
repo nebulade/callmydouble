@@ -5,7 +5,7 @@
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
   "tagline": "Webhook server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "healthCheckPath": "/",
   "httpPort": 3001,
   "addons": {
